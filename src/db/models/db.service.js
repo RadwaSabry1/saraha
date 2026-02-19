@@ -4,7 +4,7 @@ return await model.create(data)
 }
 
 export const findone=async ({model ,filter={},options={}}={})=>{
-    const doc=model.findone(filter)
+    const doc=model.findOne(filter)
     if(options.populate){
         doc.populate(options.populate)
 

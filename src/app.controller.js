@@ -22,14 +22,19 @@ const bootstrap=()=>{
     ])
    
 
-
-app.use((err,req,res,next)=>{
-    res.status(500).json("sth broke",err.stack)
+app.use((error, req, res, next) => {
+    res.status(error.cause || 500).json({
+        message: error.message,
+        error: error.stack
+    })
 })
-    app.listen(port,()=>{
+
+
+ app.listen(port,()=>{
         console.log(`server is running into port : ${ port}`);
         
     })
+
 
 }
 

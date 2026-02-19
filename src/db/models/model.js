@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import * as en from "./user.enum.js"
+import * as en from "../../common/enum/user.enum.js"
 const schema=mongoose.Schema({
     fname:{
         type:String,
