@@ -7,22 +7,46 @@ import { hashing } from "../../common/utils/security/hash.security.js";
 import jwt from "jsonwebtoken";
 //import { v4 }  from "uuid";
 import * as tok from "../../common/utils/security/token.service.js"
+import Joi from "joi";
 
+
+ 
+  
 export const signup = async (req, res, next) => {
-
+    try{
     const { fname, lname, email, password, age, gender } = req.body
-    
     if (await model.findOne({ email })) {
        throw new Error("already exist",{cause:404});
          
        
-    }
-
-    const user = await model.create({ fname, lname, email, password, age, gender })
+   }
+     arrPath=[]
+     for (const file of req.files){
+        arrPath.push(file.path)
+     }
+const user = await model.create({ 
+        model:model,
+        data:
+        {
+        fname,
+        lname, 
+        email, 
+        password,
+        age,
+        gender,
+        profilepic :req.file.path,
+        coverpic:arrPath
+    }})
     
-   successresponse({res,message:"success",data:{accesstoken}})
+   successresponse({res,message:"success",data:user})
 
+    }catch(err){
+        if(req.file){
+     deleteFile(req.file.path)
+   }
 
+   next(err)
+    }
 
 }
 //const asynchandler=(fn)=>{
@@ -56,17 +80,8 @@ export const signIn = async (req, res, next) => {
 
 
 export const getprofile=async(req, res, next)=>{
-     const { email} = req.body
-    const {authorization}=req.headers
-    const decoded=tok.verifytok({token:authorization,seckey:"ahmed"})
-    const emailexist = await d.findone({ model:model},{email })
-    if (!emailexist) {
-
-         throw new Error( "not exist profile" ,{cause:400})
-       
-    } else{
+ 
           successresponse({res,message:"success",data:decoded})
     }
   
 
-}

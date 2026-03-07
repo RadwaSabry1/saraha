@@ -1,11 +1,12 @@
 import express from "express"
 import { checkconnection } from "./db/connectiondb.js"
+import cors from "cors"
 
 import route from "./modules/users/user.controller.js"
 const app=express()
 const port=2000
 const bootstrap=()=>{
-    app.use(express.json())
+    app.use(cors(),express.json())
     app.get("/",(req,res)=>{
         res.status(200).json({message:`running on  ${req.originalUrl}`})
     })
@@ -20,7 +21,7 @@ const bootstrap=()=>{
         console.log(`error on ${console.error()}`)
         
     ])
-   
+   app.use("/upload",express.static("upload"))
 
 app.use((error, req, res, next) => {
     res.status(error.cause || 500).json({

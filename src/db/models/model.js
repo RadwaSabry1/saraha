@@ -37,6 +37,7 @@ const schema=mongoose.Schema({
         default:en.genderenum.male
     },
     profilepic:String,
+    coverpic:[String],
     confirmed:Boolean,
     providor:{
         type:String,
